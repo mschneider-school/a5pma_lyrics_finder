@@ -47,7 +47,7 @@ import { add, play } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
 // import Storage from '../services/storage';
-import { storage as strg }  from './Tab1';
+import { storage as strg }  from './Search';
 const storage = strg;
 
 import { Plugins } from "@capacitor/core";
@@ -56,7 +56,7 @@ const { Accessibility } = Plugins;
 let audioChunks = [];
 
 export default defineComponent({
-  name: 'Tab2',
+  name: 'Lyrics',
 
   ionViewWillEnter() {
     console.log("event on lyrics tab");

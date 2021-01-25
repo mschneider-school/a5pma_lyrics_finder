@@ -35,7 +35,7 @@
 import { IonPage, IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
 
 export default  {
-  name: 'Tab4',
+  name: 'About',
   components: { IonContent, IonPage, IonGrid, IonRow, IonCol }
 }
 </script>

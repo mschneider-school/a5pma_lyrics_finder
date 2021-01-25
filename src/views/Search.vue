@@ -42,7 +42,7 @@ const storage = new Storage();
 export { storage };
 
 export default {
-  name: 'Tab1',
+  name: 'Search',
 
   ionViewWillEnter() {
     this.$data.artist = '';

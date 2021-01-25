@@ -36,12 +36,12 @@
 <script>
 import { IonPage, IonContent, IonList, IonItem, IonLabel, alertController } from '@ionic/vue';
 import { trash, eye } from 'ionicons/icons';
-import { storage as strg } from './Tab1';
+import { storage as strg } from './Search';
 
 const storage = strg;
 
 export default  {
-  name: 'Tab3',
+  name: 'Favorite',
 
   ionViewWillEnter() {
     this.loadFavoriteSongs();

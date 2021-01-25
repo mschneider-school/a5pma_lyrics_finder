@@ -31,7 +31,7 @@ import { defineComponent, ref } from 'vue';
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage } from '@ionic/vue';
 import { searchOutline, musicalNotesOutline, starOutline, informationCircleOutline } from 'ionicons/icons';
 
-import { storage as strg }  from './Tab1';
+import { storage as strg }  from './Search';
 const storage = strg;
 
 
