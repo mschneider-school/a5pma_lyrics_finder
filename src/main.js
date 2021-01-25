@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
-import mitt from 'mitt';
+import mitt from 'mitt'; // import mitt module to support global eventbus
 
 import { IonicVue } from '@ionic/vue';
 
@@ -24,12 +24,14 @@ import '@ionic/vue/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+// create global eventbus instance
 const eventBus = mitt();
 
 const app = createApp(App)
   .use(IonicVue)
   .use(router);
 
+// add global eventbus to global properties of an app
 app.config.globalProperties.eventBus = eventBus;
 
 router.isReady().then(() => {

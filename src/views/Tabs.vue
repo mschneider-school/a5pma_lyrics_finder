@@ -2,22 +2,22 @@
   <ion-page ref="ionTabs">
     <ion-tabs @ionTabsWillChange="beforeTabChange">
       <ion-tab-bar>
-        <ion-tab-button tab="tab1" href="/tabs/tab1">
+        <ion-tab-button tab="search" href="/tabs/search">
           <ion-icon :icon="searchOutline" />
           <ion-label>Search</ion-label>
         </ion-tab-button>
         <!--  bounding :disabled to lyricsTabDisabled data -->
-        <ion-tab-button ref="lyricsTab" tab="tab2" :disabled="lyricsTabDisabled" href="/tabs/tab2">
+        <ion-tab-button ref="lyricsTab" tab="lyrics" :disabled="lyricsTabDisabled" href="/tabs/lyrics">
           <ion-icon :icon="musicalNotesOutline" />
           <ion-label>Lyrics</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="tab3" :disabled="favoriteTabDisabled" href="/tabs/tab3">
+        <ion-tab-button tab="favorite" :disabled="favoriteTabDisabled" href="/tabs/favorite">
           <ion-icon :icon="starOutline" />
           <ion-label>Favorite</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="tab4" href="/tabs/tab4">
+        <ion-tab-button tab="about" href="/tabs/about">
           <ion-icon :icon="informationCircleOutline" />
           <ion-label>About</ion-label>
         </ion-tab-button>

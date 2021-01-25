@@ -34,7 +34,7 @@
 
 <script>
 import { IonPage, IonContent, IonItem, IonLabel, IonInput,
-         IonRow, IonCol, IonButton, IonChip, IonGrid, alertController } from '@ionic/vue';
+         IonRow, IonCol, IonButton, IonChip, IonGrid, alertController, loadingController } from '@ionic/vue';
 
 // import storage service to store lyrics
 import Storage from '../services/storage';
@@ -82,16 +82,26 @@ export default {
       const artistText = this.$data.artist;
       const titleText = this.$data.title;
 
+      // create loading controller before search
+      const loading = await loadingController
+        .create({
+          message: 'Please wait...',
+        });
+
+      // show loading
+      loading.present();
+
       const apiRequest = "https://api.lyrics.ovh/v1/" + artistText + "/" + titleText;
       const response = await fetch(apiRequest)
                               .then(res => res.json())
                               .catch(error => console.log(error));
 
       // if no lyrics were found, lyrics is empty string
+      // in any case turn of the loading controller
+      loading.dismiss();
       if (response.lyrics === '') {
         this.presentFailureAlert();
       } else {
-
         var song = {
           artist: artistText,
           title: titleText,
