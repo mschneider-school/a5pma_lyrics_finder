@@ -1,0 +1,8 @@
+{
+  "name": "LyricsFinder",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue",
+  "id": "58879614"
+}

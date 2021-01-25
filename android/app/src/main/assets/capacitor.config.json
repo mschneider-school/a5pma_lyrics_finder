@@ -1,0 +1,14 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "LyricsFinder",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {},
+  "linuxAndroidStudioPath": "/var/lib/flatpak/app/com.google.AndroidStudio/x86_64/stable/a16075654709605dc569941a12ba73812cdfd272767b34a3d3a7794e00e2dc6d/files/extra/android-studio/bin/studio.sh"
+}
