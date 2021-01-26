@@ -28,12 +28,11 @@
 
 <script>
 import { defineComponent, ref } from 'vue';
-import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage } from '@ionic/vue';
+import { IonPage, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/vue';
 import { searchOutline, musicalNotesOutline, starOutline, informationCircleOutline } from 'ionicons/icons';
 
 import { storage as strg }  from './Search';
 const storage = strg;
-
 
 export default defineComponent ({
   name: 'Tabs',
@@ -43,7 +42,10 @@ export default defineComponent ({
     this.checkCurrentLyrics();
   },
 
-  components: { IonLabel, IonTabs, IonTabBar, IonTabButton, IonIcon, IonPage },
+  components: {
+    IonPage, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel
+  },
+
   setup() {
     return {
       searchOutline,

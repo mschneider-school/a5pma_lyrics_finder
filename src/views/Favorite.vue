@@ -34,7 +34,8 @@
 </template>
 
 <script>
-import { IonPage, IonContent, IonList, IonItem, IonLabel, alertController } from '@ionic/vue';
+import { IonPage, IonContent, IonGrid, IonRow, IonCol,
+         IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon, alertController } from '@ionic/vue';
 import { trash, eye } from 'ionicons/icons';
 import { storage as strg } from './Search';
 
@@ -46,7 +47,8 @@ export default  {
   ionViewWillEnter() {
     this.loadFavoriteSongs();
   },
-  components: { IonContent, IonPage, IonList, IonLabel, IonItem },
+  components: { IonPage, IonContent, IonGrid, IonRow, IonCol,
+                IonList, IonItem, IonLabel, IonButtons, IonButton, IonIcon },
   data() {
     return {
       favSongs: []

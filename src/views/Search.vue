@@ -12,7 +12,7 @@
               <ion-input name="artist" id="artist" v-model="artist"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-label> Title</ion-label>
+              <ion-label>Title</ion-label>
               <ion-input name="title" id="title" v-model="title"></ion-input>
             </ion-item>
               <ion-text v-if="errors.length">
@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import { IonPage, IonContent, IonItem, IonLabel, IonInput,
-         IonRow, IonCol, IonButton, IonChip, IonGrid, alertController, loadingController } from '@ionic/vue';
+import { IonPage, IonContent, IonGrid, IonRow, IonCol, IonItem, IonLabel, IonInput,
+         IonText, IonChip, IonButton, alertController, loadingController } from '@ionic/vue';
 
 // import storage service to store lyrics
 import Storage from '../services/storage';
@@ -49,8 +49,8 @@ export default {
     this.$data.title = '';
   },
   components: {
-    IonContent, IonPage, IonItem, IonLabel, IonGrid,
-    IonInput, IonRow, IonCol, IonButton, IonChip
+    IonPage, IonContent, IonGrid, IonRow, IonCol, IonItem, IonLabel, IonInput,
+    IonText, IonChip, IonButton
   },
   data() {
     return {

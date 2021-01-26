@@ -32,10 +32,12 @@
 </template>
 
 <script>
-import { IonPage, IonContent, IonGrid, IonRow, IonCol } from '@ionic/vue';
+import { IonPage, IonContent, IonGrid, IonRow, IonCol, IonCard, IonCardHeader,
+         IonCardTitle, IonCardContent } from '@ionic/vue';
 
 export default  {
   name: 'About',
-  components: { IonContent, IonPage, IonGrid, IonRow, IonCol }
+  components: { IonContent, IonPage, IonGrid, IonRow, IonCol, IonCard, IonCardHeader,
+                IonCardTitle, IonCardContent }
 }
 </script>
