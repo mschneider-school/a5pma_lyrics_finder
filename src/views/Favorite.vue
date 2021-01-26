@@ -85,7 +85,7 @@ export default  {
           storage.remove("currentSong");
         }
         storage.set("currentSong", JSON.stringify(selectedSong)).then(() => {
-          this.$router.push("tab2");
+          this.$router.push("lyrics");
         });
         this.eventBus.emit("enable-lyrics");
       });
@@ -111,7 +111,7 @@ export default  {
       // updated favorites in database
       storage.set("favorites", JSON.stringify(this.$data.favSongs));
       if (this.$data.favSongs.length == 0) {
-        this.$router.push("tab1");
+        this.$router.push("search");
       }
     },
 

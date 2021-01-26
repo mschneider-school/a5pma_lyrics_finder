@@ -8,8 +8,8 @@
       </ion-fab>
 
       <ion-fab vertical="top" horizontal="end" slot="fixed">
-        <ion-fab-button color="light" @click="speakHello">
-          <ion-icon :icon="play"></ion-icon>
+        <ion-fab-button color="light" @click="speakLyrics">
+          <ion-icon :icon="icon"></ion-icon>
         </ion-fab-button>
       </ion-fab>
 
@@ -40,41 +40,55 @@
 
 <script>
 import { IonPage, IonContent, IonGrid, IonRow, IonCol, IonFab,
-         IonFabButton, IonText, alertController }
+         IonFabButton, IonText, alertController, isPlatform }
 from '@ionic/vue';
 
-import { add, play } from 'ionicons/icons';
+import { add, play, stop, sync } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
-// import Storage from '../services/storage';
 import { storage as strg }  from './Search';
 const storage = strg;
 
 import { Plugins } from "@capacitor/core";
 const { Accessibility } = Plugins;
 
-let audioChunks = [];
+let audio = null;
 
 export default defineComponent({
   name: 'Lyrics',
 
   ionViewWillEnter() {
     console.log("event on lyrics tab");
+    if (isPlatform("android")) {
+      this.$data.icon = play;
+    }
     this.loadLyrics();
+  },
+  ionViewWillLeave() {
+    // pause audio on tab switch
+    if ( !isPlatform("android") && audio != null
+                                && !audio.ended
+                                && !audio.paused
+                                && audio.currentTime > 0) {
+      this.$data.icon = play;
+      audio.pause();
+    }
   },
   components: { IonContent, IonPage, IonGrid, IonRow, IonCol,
                 IonFab, IonFabButton, IonText },
   setup() {
     return {
       add,
-      play
+      play,
+      stop
     }
   },
   data() {
     return {
       artist: '',
       title: '',
-      lyrics: []
+      lyrics: [],
+      icon: sync
     }
   },
   methods: {
@@ -109,8 +123,8 @@ export default defineComponent({
             // save new favorites with added song
             storage.set("favorites", favJSONstring).then(() => {
               console.log("favorites added song");
-              this.lyricsSavedSuccessAlert();
             });
+            this.lyricsSavedSuccessAlert();
           } else {
             this.lyricsSavedFailureAlert();
             enableFavorites = false;
@@ -144,17 +158,36 @@ export default defineComponent({
 
       return alert.present();
     },
-    speakHello() {
-      const lyricsText = this.$data.lyrics.join(" ").trim();
-      Accessibility.speak({value: lyricsText});
-      /*
-      let currentDuration = 0;
-      for (let audio in audioChunks) {
-        let duration = audioChunks[audio].duration;
-        console.log(duration);
-        currentDuration += duration;
-        setTimeout(() => { audioChunks[audio].play(); }, currentDuration * 1000);
-      }*/
+
+    async audioNotReadyAlert() {
+      const alert = await alertController
+        .create({
+          header: 'Audio not ready',
+          message: 'Please wait a moment before you try again.',
+          buttons: ['OK']
+        });
+      return alert.present();
+    },
+
+    speakLyrics() {
+      // as a hack on android use builtin speech synthesis
+      // leider kann man nicht das Audio ausschalten
+      if (isPlatform("android")) {
+        const lyricsText = this.$data.lyrics.join(" ").trim();
+        Accessibility.speak({value: lyricsText});
+      } else {
+        // pwa or another platform
+        if (this.$data.icon == play) {
+          // if audio is ready show play icon and play it
+          this.$data.icon = stop;
+          audio.play();
+        } else if (this.$data.icon == stop) { // if audio is playing show stop icon
+          this.$data.icon = play;
+          audio.pause();
+        } else {
+          this.audioNotReadyAlert();
+        }
+      }
     },
 
     loadLyrics() {
@@ -170,7 +203,11 @@ export default defineComponent({
         this.$data.artist = songObj.artist;
         this.$data.title = songObj.title;
         this.$data.lyrics = songObj.lyrics;
-      });// .then(() => { this.loadSpeech(); });
+      }).then(() => {
+        if (audio == null && !isPlatform("android")) {
+          this.loadSpeech();
+        }
+      });
     },
 
     loadSpeech() {
@@ -181,24 +218,34 @@ export default defineComponent({
       const quality = '&f=16khz_16bit_mono';
       const src = '&src=';
 
-      let URL = url + key + lang + format + quality + src;
+      let lrcs = '';
+      const max_chunks = 10;
+      let chunks = 0;
 
-      const audioChunkSize = 5;
-      let chunksInAudioPart = 0;
-
-      let multichunk = '';
-
-      for (let chunk in this.$data.lyrics) {
-        if (this.$data.lyrics[chunk] != '') {
-          chunksInAudioPart += 1;
-          multichunk += this.$data.lyrics[chunk] + ' ';
-          if (chunksInAudioPart == audioChunkSize || chunk == this.$data.lyrics.length - 1) {
-            audioChunks.push(new Audio(URL + encodeURIComponent(multichunk)));
-            multichunk = '';
-          }
+      for(let i = 0; i < this.$data.lyrics.length; ++i) {
+        if (this.$data.lyrics[i] != '') {
+          lrcs += this.$data.lyrics[i];
+          lrcs += '\n';
+          chunks++;
+        }
+        if (chunks == max_chunks) {
+          break;
         }
       }
-    },
+      console.log(lrcs);
+      // create url
+      let URL = url + key + lang + format + quality + src;
+      // get audio from max_chunks lyrics
+      audio = new Audio(URL + encodeURIComponent(lrcs));
+      if (audio != null) {
+        audio.addEventListener("canplaythrough", () => {
+          this.$data.icon = play;
+        });
+        audio.addEventListener("ended", () => {
+          this.$data.icon = play;
+        });
+      }
+    }
   }
 });
 </script>

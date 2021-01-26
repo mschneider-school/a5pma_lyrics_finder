@@ -8,7 +8,7 @@
 
           <ion-col size="12" class="ion-align-self-start">
             <ion-card>
-               <img src="../../public/assets/logo.svg" />
+               <img src="../../public/assets/logo.png" alt="application logo">
                <ion-card-header>
                  <ion-card-title>LyricsFinder</ion-card-title>
               </ion-card-header>
